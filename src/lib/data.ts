@@ -2,7 +2,7 @@
 export interface Restaurant {
   id: string;
   name: string;
-  profileImage?: string; // Optional: if we want to display restaurant logos
+  profileImage?: string; // Optional: for restaurant logos
 }
 
 export interface Category {
@@ -15,8 +15,8 @@ export interface FoodItem {
   restaurantId: string;
   name: string;
   imageUrl: string;
-  imageHint: string;
-  category: string; // Category name for simplicity, could be categoryId
+  imageHint: string; // For placeholder image search keywords
+  category: string; // Category name
   likes: number;
   description: string;
 }
@@ -28,144 +28,188 @@ export const categoriesData: Category[] = [
   { id: 'cat4', name: 'Salads' },
   { id: 'cat5', name: 'Main Course' },
   { id: 'cat6', name: 'Appetizers' },
+  { id: 'cat7', name: 'Pastries' },
+  { id: 'cat8', name: 'Sandwiches' },
 ];
 
 export const restaurantsData: Restaurant[] = [
   { id: 'res1', name: 'The Sweet Spot', profileImage: 'https://placehold.co/100x100.png' },
-  { id: 'res2', name: 'Savory Bites', profileImage: 'https://placehold.co/100x100.png' },
-  { id: 'res3', name: 'Green Leaf Cafe', profileImage: 'https://placehold.co/100x100.png' },
+  { id: 'res2', name: 'Savory Bites Kitchen', profileImage: 'https://placehold.co/100x100.png' },
+  { id: 'res3', name: 'Green Leaf Cafe & Eatery', profileImage: 'https://placehold.co/100x100.png' },
+  { id: 'res4', name: 'Urban Pasta House', profileImage: 'https://placehold.co/100x100.png' },
 ];
 
 export const foodItemsData: FoodItem[] = [
-  // Restaurant 1: The Sweet Spot
+  // Restaurant 1: The Sweet Spot (Desserts, Cakes, Drinks, Pastries)
   { 
     id: 'food1', 
     restaurantId: 'res1', 
-    name: 'Chocolate Lava Cake', 
+    name: 'Molten Chocolate Lava Cake', 
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'chocolate cake',
     category: 'Desserts', 
-    likes: 150, 
-    description: 'Decadent chocolate cake with a molten center, served with vanilla ice cream.' 
+    likes: 152, 
+    description: 'Decadent dark chocolate cake with a gooey molten center, served with a scoop of vanilla bean ice cream and raspberry coulis.' 
   },
   { 
     id: 'food2', 
     restaurantId: 'res1', 
-    name: 'Strawberry Cheesecake', 
+    name: 'Classic Strawberry Cheesecake', 
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'strawberry cheesecake',
     category: 'Cakes', 
-    likes: 220, 
-    description: 'Creamy cheesecake topped with fresh strawberries and a graham cracker crust.' 
+    likes: 225, 
+    description: 'Rich and creamy New York style cheesecake on a graham cracker crust, topped with fresh strawberries and a light strawberry glaze.' 
   },
   { 
     id: 'food3', 
     restaurantId: 'res1', 
-    name: 'Iced Caramel Latte', 
+    name: 'Iced Caramel Macchiato', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'iced latte',
+    imageHint: 'iced coffee',
     category: 'Drinks', 
-    likes: 95, 
-    description: 'Chilled espresso with milk and caramel syrup, topped with whipped cream.' 
+    likes: 98, 
+    description: 'Chilled espresso layered with vanilla-flavored syrup, milk, and caramel sauce, served over ice.' 
   },
   { 
     id: 'food10', 
     restaurantId: 'res1', 
-    name: 'Red Velvet Cake', 
+    name: 'Almond Croissant', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'red velvet',
-    category: 'Cakes', 
+    imageHint: 'almond croissant',
+    category: 'Pastries', 
     likes: 180, 
-    description: 'Classic red velvet cake with cream cheese frosting.' 
+    description: 'Flaky, buttery croissant filled with rich almond cream and topped with toasted almonds and powdered sugar.' 
   },
 
-  // Restaurant 2: Savory Bites
+  // Restaurant 2: Savory Bites Kitchen (Main Course, Salads, Appetizers, Sandwiches)
   { 
     id: 'food4', 
     restaurantId: 'res2', 
-    name: 'Grilled Salmon', 
+    name: 'Pan-Seared Salmon with Asparagus', 
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'grilled salmon',
     category: 'Main Course', 
-    likes: 180, 
-    description: 'Perfectly grilled salmon fillet served with roasted vegetables and lemon butter sauce.' 
+    likes: 185, 
+    description: 'Crispy-skin salmon fillet pan-seared to perfection, served with tender asparagus spears and a lemon-dill sauce.' 
   },
   { 
     id: 'food5', 
     restaurantId: 'res2', 
-    name: 'Caprese Salad', 
+    name: 'Mediterranean Quinoa Salad', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'caprese salad',
+    imageHint: 'quinoa salad',
     category: 'Salads', 
-    likes: 120, 
-    description: 'Fresh mozzarella, ripe tomatoes, and basil, drizzled with balsamic glaze.' 
+    likes: 123, 
+    description: 'A vibrant salad with quinoa, cucumbers, tomatoes, olives, feta cheese, and a lemon-herb vinaigrette.' 
   },
   { 
     id: 'food6', 
     restaurantId: 'res2', 
-    name: 'Bruschetta', 
+    name: 'Spicy Tuna Crispy Rice', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'bruschetta appetizer',
+    imageHint: 'crispy rice',
     category: 'Appetizers', 
-    likes: 90, 
-    description: 'Toasted bread topped with fresh tomatoes, garlic, basil, and olive oil.' 
+    likes: 92, 
+    description: 'Crispy fried rice cakes topped with spicy tuna tartare, avocado, and a touch of sriracha aioli.' 
   },
   { 
     id: 'food11', 
     restaurantId: 'res2', 
-    name: 'Lemonade', 
+    name: 'Gourmet Chicken Club Sandwich', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'fresh lemonade',
-    category: 'Drinks', 
-    likes: 70, 
-    description: 'Refreshing homemade lemonade.' 
+    imageHint: 'club sandwich',
+    category: 'Sandwiches', 
+    likes: 75, 
+    description: 'Grilled chicken breast, crispy bacon, lettuce, tomato, and avocado with a herbed mayonnaise on toasted sourdough.' 
   },
 
-
-  // Restaurant 3: Green Leaf Cafe
+  // Restaurant 3: Green Leaf Cafe & Eatery (Salads, Appetizers, Drinks, Desserts)
   { 
     id: 'food7', 
     restaurantId: 'res3', 
-    name: 'Quinoa Salad', 
+    name: 'Superfood Kale Salad', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'quinoa salad',
+    imageHint: 'kale salad',
     category: 'Salads', 
-    likes: 160, 
-    description: 'Healthy quinoa salad with mixed greens, avocado, cherry tomatoes, and a lemon vinaigrette.' 
+    likes: 162, 
+    description: 'Nutrient-packed kale salad with roasted sweet potatoes, chickpeas, cranberries, pumpkin seeds, and a tahini dressing.' 
   },
   { 
     id: 'food8', 
     restaurantId: 'res3', 
-    name: 'Avocado Toast', 
+    name: 'Artisan Avocado Toast Deluxe', 
     imageUrl: 'https://placehold.co/600x400.png',
     imageHint: 'avocado toast',
     category: 'Appetizers', 
-    likes: 250, 
-    description: 'Sourdough toast topped with mashed avocado, feta cheese, and a sprinkle of chili flakes.' 
+    likes: 255, 
+    description: 'Thick-cut multigrain toast topped with creamy avocado, a poached egg, feta cheese, and chili flakes.' 
   },
   { 
     id: 'food9', 
     restaurantId: 'res3', 
-    name: 'Green Smoothie', 
+    name: 'Mango Pineapple Power Smoothie', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'green smoothie',
+    imageHint: 'fruit smoothie',
     category: 'Drinks', 
-    likes: 110, 
-    description: 'Nutritious green smoothie with spinach, kale, banana, and almond milk.' 
+    likes: 112, 
+    description: 'A refreshing and energizing smoothie blended with mango, pineapple, banana, spinach, and coconut water.' 
   },
   { 
     id: 'food12', 
     restaurantId: 'res3', 
-    name: 'Vegan Chocolate Mousse', 
+    name: 'Vegan Berry Parfait', 
     imageUrl: 'https://placehold.co/600x400.png',
-    imageHint: 'vegan mousse',
+    imageHint: 'vegan parfait',
     category: 'Desserts', 
-    likes: 130, 
-    description: 'Rich and creamy vegan chocolate mousse made with avocado and cocoa powder.' 
+    likes: 133, 
+    description: 'Layers of coconut yogurt, mixed berry compote, and homemade granola, served in a glass.' 
   },
+  
+  // Restaurant 4: Urban Pasta House (Main Course, Appetizers, Drinks)
+  {
+    id: 'food13',
+    restaurantId: 'res4',
+    name: 'Spaghetti Carbonara Classic',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'pasta carbonara',
+    category: 'Main Course',
+    likes: 210,
+    description: 'Authentic Italian spaghetti carbonara with pancetta, pecorino romano, egg yolk, and black pepper.'
+  },
+  {
+    id: 'food14',
+    restaurantId: 'res4',
+    name: 'Garlic Bread with Mozzarella',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'garlic bread',
+    category: 'Appetizers',
+    likes: 140,
+    description: 'Toasted Italian bread brushed with garlic butter and topped with melted mozzarella cheese.'
+  },
+  {
+    id: 'food15',
+    restaurantId: 'res4',
+    name: 'Italian Spritz',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'spritz cocktail',
+    category: 'Drinks',
+    likes: 85,
+    description: 'A classic Italian aperitif with prosecco, bitter liqueur, and a splash of soda water.'
+  },
+  {
+    id: 'food16',
+    restaurantId: 'res4',
+    name: 'Pesto Penne Primavera',
+    imageUrl: 'https://placehold.co/600x400.png',
+    imageHint: 'pesto pasta',
+    category: 'Main Course',
+    likes: 175,
+    description: 'Penne pasta tossed in a vibrant basil pesto sauce with seasonal spring vegetables.'
+  }
 ];
 
-// Helper functions to simulate API calls
+// Helper functions to simulate API calls (data fetching)
 export const getRestaurants = async (): Promise<Restaurant[]> => {
   return new Promise((resolve) => setTimeout(() => resolve(restaurantsData), 50));
 };

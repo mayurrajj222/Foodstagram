@@ -25,7 +25,7 @@ export default function HomePage() {
         setRestaurants(allRestaurants);
       } catch (error) {
         console.error("Failed to fetch data:", error);
-        // Handle error state if necessary
+        // Optionally, set an error state to display a message to the user
       } finally {
         setIsLoading(false);
       }
@@ -38,30 +38,47 @@ export default function HomePage() {
   }, [restaurants]);
 
   const filteredFoodItems = useMemo(() => {
-    if (!searchTerm) {
+    const lowerSearchTerm = searchTerm.toLowerCase().trim();
+    if (!lowerSearchTerm) {
       return foodItems;
     }
-    const lowerSearchTerm = searchTerm.toLowerCase();
+    
     return foodItems.filter(item => {
       const restaurant = restaurantMap.get(item.restaurantId);
-      return restaurant?.name.toLowerCase().includes(lowerSearchTerm) || item.name.toLowerCase().includes(lowerSearchTerm);
+      const restaurantNameMatch = restaurant?.name.toLowerCase().includes(lowerSearchTerm);
+      const foodNameMatch = item.name.toLowerCase().includes(lowerSearchTerm);
+      const categoryMatch = item.category.toLowerCase().includes(lowerSearchTerm);
+      // const descriptionMatch = item.description.toLowerCase().includes(lowerSearchTerm); // Optional: search in description
+      return restaurantNameMatch || foodNameMatch || categoryMatch;
     });
   }, [foodItems, searchTerm, restaurantMap]);
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-headline text-center text-primary">Discover Delicious Food</h1>
+      <div className="text-center pt-4 pb-2">
+        <h1 className="text-4xl md:text-5xl font-headline text-primary mb-2">Discover Delicious Food</h1>
+        <p className="text-lg text-muted-foreground">Explore a world of flavors, one post at a time.</p>
+      </div>
       
-      <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder="Search food or restaurants..." />
+      <SearchBar 
+        searchTerm={searchTerm} 
+        onSearchChange={setSearchTerm} 
+        placeholder="Search food, category, or restaurants..." 
+        className="max-w-xl mx-auto"
+      />
 
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="space-y-2">
-              <Skeleton className="h-[200px] w-full rounded-lg" />
-              <Skeleton className="h-6 w-3/4" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <div key={index} className="bg-card p-4 rounded-lg shadow space-y-3">
+              <Skeleton className="h-[200px] w-full rounded-md" />
+              <Skeleton className="h-5 w-3/4" />
               <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-8 w-1/4 mt-2" />
+              <Skeleton className="h-4 w-5/6" />
+              <div className="flex justify-between items-center pt-2">
+                <Skeleton className="h-8 w-20" />
+                <Skeleton className="h-8 w-28" />
+              </div>
             </div>
           ))}
         </div>
@@ -77,9 +94,12 @@ export default function HomePage() {
           ))}
         </div>
       ) : (
-        <p className="text-center text-muted-foreground text-lg col-span-full">
-          No food items match your search. Try a different term!
-        </p>
+        <div className="text-center py-12">
+          <p className="text-xl font-semibold text-foreground mb-2">No Matches Found</p>
+          <p className="text-muted-foreground">
+            We couldn't find any food items matching "{searchTerm}". Try a different search term or explore all items.
+          </p>
+        </div>
       )}
     </div>
   );
