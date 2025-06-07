@@ -7,8 +7,11 @@ import { Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+<<<<<<< HEAD
 import { toggleLike, toggleUnlike, subscribeToLikes } from '@/lib/firebase';
 import { useToast } from '@/components/ui/use-toast';
+=======
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
 
 interface FoodPostCardProps {
   item: FoodItem;
@@ -21,6 +24,7 @@ const FoodPostCard = ({ item, restaurant }: FoodPostCardProps) => {
   const [likeCount, setLikeCount] = useState(item.likes);
   const [animateLike, setAnimateLike] = useState(false);
   const [currentTimeAgo, setCurrentTimeAgo] = useState<string>("1 hour ago");
+<<<<<<< HEAD
   const { toast } = useToast();
 
   useEffect(() => {
@@ -32,6 +36,9 @@ const FoodPostCard = ({ item, restaurant }: FoodPostCardProps) => {
     // Cleanup subscription on unmount
     return () => unsubscribe();
   }, [item.id]);
+=======
+
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
 
   useEffect(() => {
     // Simulate dynamic time
@@ -39,6 +46,7 @@ const FoodPostCard = ({ item, restaurant }: FoodPostCardProps) => {
     setCurrentTimeAgo(`${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`);
   }, []);
 
+<<<<<<< HEAD
   const handleLike = async (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent link navigation when liking
     e.stopPropagation();
@@ -79,6 +87,15 @@ const FoodPostCard = ({ item, restaurant }: FoodPostCardProps) => {
         variant: "destructive",
       });
     }
+=======
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent link navigation when liking
+    e.stopPropagation();
+    setIsLiked(!isLiked);
+    setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    setAnimateLike(true);
+    setTimeout(() => setAnimateLike(false), 300);
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
   };
 
   const restaurantName = restaurant?.name || 'Food Place';

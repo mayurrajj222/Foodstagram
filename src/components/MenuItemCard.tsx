@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import { toggleLike, toggleUnlike, subscribeToLikes } from '@/lib/firebase';
 import { useToast } from '@/components/ui/use-toast';
+=======
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
 
 interface MenuItemCardProps {
   item: FoodItem;
@@ -16,6 +19,7 @@ interface MenuItemCardProps {
 }
 
 const MenuItemCard = ({ item, onAdd }: MenuItemCardProps) => {
+<<<<<<< HEAD
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(item.likes);
   const { toast } = useToast();
@@ -69,6 +73,10 @@ const MenuItemCard = ({ item, onAdd }: MenuItemCardProps) => {
       });
     }
   };
+=======
+  const rating = item.rating || Math.floor(item.likes / 50) % 5 + 1; // Mock rating
+  const price = item.price || (item.likes % 20) + 5; // Mock price
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
 
   return (
     <Card className="overflow-hidden shadow-lg bg-card border-border rounded-xl flex flex-col h-full">
@@ -81,6 +89,7 @@ const MenuItemCard = ({ item, onAdd }: MenuItemCardProps) => {
           className="object-cover"
           data-ai-hint={item.imageHint || 'menu item'}
         />
+<<<<<<< HEAD
         <button
           onClick={handleLike}
           className="absolute top-2 right-2 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
@@ -93,6 +102,8 @@ const MenuItemCard = ({ item, onAdd }: MenuItemCardProps) => {
             )}
           />
         </button>
+=======
+>>>>>>> 7cbc18989a191aa23153d0457fa0aaad00885e8b
       </div>
       <CardContent className="p-3 flex flex-col flex-grow">
         <h3 className="text-md font-headline text-foreground mb-1 line-clamp-2">{item.name}</h3>
