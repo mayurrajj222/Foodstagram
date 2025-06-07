@@ -3,101 +3,93 @@
 import type { FoodItem, Restaurant } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Utensils } from 'lucide-react'; // Assuming Utensils might be used if restaurant logo is missing, but not directly here.
+import { Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface FoodPostCardProps {
   item: FoodItem;
-  restaurant?: Restaurant; // Optional, for main feed display
-  showRestaurantName?: boolean;
+  restaurant?: Restaurant;
+  // showRestaurantName is implicitly true for this new design
 }
 
-const FoodPostCard = ({ item, restaurant, showRestaurantName = false }: FoodPostCardProps) => {
+const FoodPostCard = ({ item, restaurant }: FoodPostCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(item.likes);
   const [animateLike, setAnimateLike] = useState(false);
+  const [currentTimeAgo, setCurrentTimeAgo] = useState<string>("1 hour ago");
+
 
   useEffect(() => {
-    // In a real app with user authentication, you'd fetch initial like status from Firestore.
-    // For this demo, we're keeping it client-side.
-    // To make it slightly more dynamic for demo:
-    // setIsLiked(Math.random() < 0.3); // Randomly like some posts initially
-  }, [item.id]);
+    // Simulate dynamic time
+    const hoursAgo = Math.floor(Math.random() * 5) + 1;
+    setCurrentTimeAgo(`${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`);
+  }, []);
 
-
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent link navigation when liking
+    e.stopPropagation();
     setIsLiked(!isLiked);
     setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
     setAnimateLike(true);
-    setTimeout(() => setAnimateLike(false), 300); // Duration of like animation
-
-    // Placeholder for Firestore update logic
-    // e.g., updateLikeCountInFirestore(item.id, !isLiked);
+    setTimeout(() => setAnimateLike(false), 300);
   };
 
-  const restaurantToDisplay = restaurant || { name: 'Explore Restaurant', id: item.restaurantId };
+  const restaurantName = restaurant?.name || 'Food Place';
+  const restaurantProfileImage = restaurant?.profileImage;
 
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full bg-card rounded-lg border border-border">
-      <CardHeader className="p-0 relative group">
-        <Link href={`/restaurants/${item.restaurantId}?item=${item.id}`} aria-label={`View details for ${item.name}`}>
-          <div className="aspect-[4/3] relative w-full overflow-hidden">
-            <Image
-              src={item.imageUrl}
-              alt={item.name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-110"
-              data-ai-hint={item.imageHint}
-              priority={false} // Set to true for above-the-fold images if needed
-            />
-             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+    <Link href={`/restaurants/${item.restaurantId}?item=${item.id}`} className="block group overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card">
+      <div className="relative aspect-video w-full">
+        <Image
+          src={item.imageUrl}
+          alt={item.name}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          data-ai-hint={item.imageHint || 'food item'}
+          priority={false}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 flex flex-col justify-between">
+          {/* Top Overlay: Restaurant Info */}
+          {restaurant && (
+            <div className="flex items-center gap-2">
+              <Avatar className="h-8 w-8 border-2 border-background">
+                <AvatarImage src={restaurantProfileImage} alt={restaurantName} data-ai-hint="restaurant logo small" />
+                <AvatarFallback className="text-xs bg-muted-foreground text-background">{restaurantName.substring(0,1)}</AvatarFallback>
+              </Avatar>
+              <span className="text-xs font-semibold text-primary-foreground drop-shadow-sm">{restaurantName}</span>
+            </div>
+          )}
+
+          {/* Bottom Overlay: Likes, Description, Time */}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <button
+                onClick={handleLike}
+                aria-label={isLiked ? "Unlike post" : "Like post"}
+                className={cn(
+                  "flex items-center gap-1 text-primary-foreground hover:opacity-80 transition-opacity",
+                  animateLike && "animate-like"
+                )}
+                aria-pressed={isLiked}
+              >
+                <Heart fill={isLiked ? 'hsl(var(--primary))' : 'none'} stroke={isLiked ? 'hsl(var(--primary))' : 'currentColor'} className="w-5 h-5" />
+                <span className="text-sm font-medium tabular-nums">{likeCount}</span>
+              </button>
+            </div>
+            <p className="text-sm text-primary-foreground font-semibold line-clamp-2 drop-shadow-sm mb-1">
+              {item.name}
+            </p>
+            <p className="text-xs text-gray-300 line-clamp-2 drop-shadow-sm">
+              {item.description}
+            </p>
+            <p className="text-xs text-gray-400 mt-1 drop-shadow-sm">{currentTimeAgo}</p>
           </div>
-        </Link>
-      </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        {showRestaurantName && restaurantToDisplay && (
-          <Link href={`/restaurants/${restaurantToDisplay.id}`} className="text-xs text-muted-foreground hover:text-primary transition-colors block mb-1 font-headline uppercase tracking-wider">
-            {restaurantToDisplay.name}
-          </Link>
-        )}
-         <Link href={`/restaurants/${item.restaurantId}?item=${item.id}`} aria-label={`View details for ${item.name}`}>
-          <CardTitle className="text-lg lg:text-xl font-headline mb-1 hover:text-primary transition-colors leading-tight">
-            {item.name}
-          </CardTitle>
-        </Link>
-        <CardDescription className="text-sm text-muted-foreground line-clamp-2">
-          {item.description}
-        </CardDescription>
-      </CardContent>
-      <CardFooter className="p-4 flex justify-between items-center border-t border-border">
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLike}
-            aria-label={isLiked ? "Unlike post" : "Like post"}
-            className={cn(
-              "rounded-full hover:bg-accent/10 active:scale-95",
-              isLiked ? "text-accent" : "text-muted-foreground hover:text-accent",
-              animateLike && "animate-like"
-            )}
-            aria-pressed={isLiked}
-          >
-            <Heart fill={isLiked ? 'hsl(var(--accent))' : 'none'} className="w-5 h-5" />
-          </Button>
-          <span className="text-sm font-medium tabular-nums" aria-live="polite">{likeCount} likes</span>
         </div>
-        <Link href={`/restaurants/${item.restaurantId}`}>
-          <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
-             View Menu
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
+      </div>
+    </Link>
   );
 };
 

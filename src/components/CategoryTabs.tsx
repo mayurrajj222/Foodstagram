@@ -8,9 +8,12 @@ interface CategoryTabsProps {
   categories: Category[];
   selectedCategory: string | null;
   onSelectCategory: (categoryId: string | null) => void;
+  className?: string;
 }
 
-const CategoryTabs = ({ categories, selectedCategory, onSelectCategory }: CategoryTabsProps) => {
+// This component is still here but might not be used if HorizontalCategoryList fully replaces it.
+// The restaurant page now uses HorizontalCategoryList. This component can be kept for other uses or removed if not needed.
+const CategoryTabs = ({ categories, selectedCategory, onSelectCategory, className }: CategoryTabsProps) => {
   if (!categories || categories.length === 0) {
     return null;
   }
@@ -19,7 +22,7 @@ const CategoryTabs = ({ categories, selectedCategory, onSelectCategory }: Catego
     <Tabs 
       value={selectedCategory || "all"} 
       onValueChange={(value) => onSelectCategory(value === "all" ? null : value)}
-      className="mb-8 w-full"
+      className={cn("mb-8 w-full", className)}
     >
       <TabsList className="bg-card border border-border rounded-lg p-1 inline-flex flex-wrap justify-start">
         <TabsTrigger 
@@ -28,7 +31,7 @@ const CategoryTabs = ({ categories, selectedCategory, onSelectCategory }: Catego
             "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ease-in-out m-1",
             (selectedCategory === null || selectedCategory === "all")
             ? "bg-primary text-primary-foreground shadow-md"
-            : "text-foreground hover:bg-accent/10 hover:text-accent"
+            : "text-foreground hover:bg-accent/20 hover:text-accent"
           )}
           aria-selected={selectedCategory === null || selectedCategory === "all"}
         >
@@ -42,7 +45,7 @@ const CategoryTabs = ({ categories, selectedCategory, onSelectCategory }: Catego
               "px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ease-in-out m-1",
               selectedCategory === category.id
               ? "bg-primary text-primary-foreground shadow-md"
-              : "text-foreground hover:bg-accent/10 hover:text-accent"
+              : "text-foreground hover:bg-accent/20 hover:text-accent"
             )}
             aria-selected={selectedCategory === category.id}
           >

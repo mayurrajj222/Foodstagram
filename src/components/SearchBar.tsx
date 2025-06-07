@@ -11,7 +11,7 @@ interface SearchBarProps {
   className?: string;
 }
 
-const SearchBar = ({ searchTerm, onSearchChange, placeholder = "Search restaurants...", className }: SearchBarProps) => {
+const SearchBar = ({ searchTerm, onSearchChange, placeholder = "Search...", className }: SearchBarProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
   };
@@ -24,8 +24,8 @@ const SearchBar = ({ searchTerm, onSearchChange, placeholder = "Search restauran
         placeholder={placeholder}
         value={searchTerm}
         onChange={handleChange}
-        className="pl-10 pr-4 py-3 w-full rounded-lg shadow-sm border-border focus:ring-primary focus:border-primary text-base"
-        aria-label="Search bar"
+        className="pl-10 pr-4 py-3 w-full rounded-lg shadow-sm border-border bg-input focus:ring-primary focus:border-primary text-base text-foreground placeholder:text-muted-foreground"
+        aria-label={placeholder}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import type {Config} from 'tailwindcss';
 
 export default {
-  darkMode: ['class'],
+  darkMode: ['class'], // Keep class strategy if you might add a toggle later
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -97,6 +97,12 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'like': 'like 0.3s ease-in-out',
+      },
+      aspectRatio: {
+        '4/3': '4 / 3',
+        '1/1': '1 / 1',
+        '3/4': '3 / 4',
+        'video': '16 / 9',
       },
     },
   },
