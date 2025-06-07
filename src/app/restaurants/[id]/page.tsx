@@ -1,20 +1,23 @@
+
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, use as ReactUse } from 'react';
 import type { FoodItem, Restaurant as RestaurantType, Category } from '@/lib/data';
 import { getRestaurantById, getFoodItemsByRestaurant, getCategories as fetchAllCategories } from '@/lib/data';
 import FoodPostCard from '@/components/FoodPostCard';
 import CategoryTabs from '@/components/CategoryTabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import { Utensils, MapPin } from 'lucide-react'; // Added MapPin for potential location display
+import { Utensils, MapPin } from 'lucide-react';
 
 interface RestaurantPageParams {
   params: { id: string };
 }
 
-export default function RestaurantPage({ params }: RestaurantPageParams) {
-  const { id: restaurantId } = params;
+export default function RestaurantPage({ params: paramsProp }: RestaurantPageParams) {
+  const resolvedParams = ReactUse(paramsProp as any as Promise<{ id: string }>);
+  const { id: restaurantId } = resolvedParams;
+
   const [restaurant, setRestaurant] = useState<RestaurantType | null>(null);
   const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
   const [availableCategories, setAvailableCategories] = useState<Category[]>([]);
