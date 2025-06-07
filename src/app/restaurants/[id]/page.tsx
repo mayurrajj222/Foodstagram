@@ -8,7 +8,7 @@ import HorizontalCategoryList from '@/components/HorizontalCategoryList';
 import SearchBar from '@/components/SearchBar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, MapPin } from 'lucide-react'; // Added ShoppingCart
+import { ShoppingCart, MapPin, ChevronLeft } from 'lucide-react'; // Added ChevronLeft
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -148,7 +148,7 @@ export default function RestaurantPage({ params: paramsProp }: RestaurantPagePar
       <div className="flex justify-between items-center text-foreground">
         <Button variant="ghost" size="icon" asChild className="text-foreground">
           <Link href="/">
-            <LucideIcons.ChevronLeft size={24} />
+            <ChevronLeft size={24} />
             <span className="sr-only">Back</span>
           </Link>
         </Button>
